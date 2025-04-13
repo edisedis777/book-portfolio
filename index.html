@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Engineering Chronicles - Eddie's Portfolio</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="book-container">
+      <div class="book" id="book">
+        <div class="book-spine"></div>
+        <div class="book-cover" id="book-cover">
+          <!-- !!! IMPORTANT: Replace src with your actual image URL !!! -->
+          <img
+            src="eddie-small.gif"
+            alt="Eddie - Data Engineer"
+            class="profile-image" />
+          <h1 class="book-title">Data Engineering Chronicles</h1>
+          <h2 class="book-subtitle">
+            A Journey Through Data Pipelines, Architecture & Analytics
+          </h2>
+          <p class="book-author">By Eddie</p>
+          <p class="open-prompt">(Click to Open)</p>
+        </div>
+        <div class="book-content">
+          <!-- Close Button -->
+          <button id="close-button" aria-label="Close Book">✖</button>
+
+          <div class="book-sidebar">
+            <div
+              class="table-of-contents"
+              role="navigation"
+              aria-label="Table of Contents">
+              <h3 class="toc-title">Contents</h3>
+              <ul class="toc-list" id="toc-list">
+                <!-- Ensure the first item has 'active' class -->
+                <li class="toc-item active" data-chapter="introduction">
+                  Introduction
+                </li>
+                <li class="toc-item" data-chapter="chapter1">
+                  Chapter 1: ETL Data Pipeline
+                </li>
+                <li class="toc-item" data-chapter="about">About the Author</li>
+                <!-- !!! Add more TOC items for new chapters !!! -->
+              </ul>
+            </div>
+          </div>
+          <div class="book-main" id="book-main">
+            <!-- Chapter Content -->
+            <div class="chapter active" id="introduction">
+              <h2 class="chapter-title">Introduction</h2>
+              <div class="chapter-content">
+                <p>
+                  Welcome to my Data Engineering portfolio, presented as a
+                  chronicle of my journey. Each chapter delves into a
+                  significant project, showcasing my expertise in constructing
+                  robust data pipelines, designing scalable architectures, and
+                  implementing impactful solutions.
+                </p>
+                <p>
+                  As a data engineer, I thrive on the challenge of transforming
+                  raw data into actionable insights. My focus lies in creating
+                  resilient, efficient, and maintainable systems that handle the
+                  entire data lifecycle.
+                </p>
+                <p>
+                  This portfolio highlights my proficiency with core
+                  technologies like Python, SQL, Spark, and Kafka, alongside
+                  extensive experience with leading cloud platforms (AWS, Azure,
+                  GCP) and modern data warehousing solutions like Snowflake and
+                  BigQuery.
+                  <!-- !!! Update technologies as relevant !!! -->
+                </p>
+                <p>
+                  Please use the Table of Contents to navigate through the
+                  chapters. Each section details the project's objectives, the
+                  technical approach taken, the tools employed, and the key
+                  outcomes achieved.
+                </p>
+              </div>
+              <div class="page-footer">
+                <!-- Previous Button (Hidden by CSS on first chapter) -->
+                <button class="prev-page-button" aria-label="Previous Page">
+                  ← Previous
+                </button>
+                <span class="page-number">Page i</span>
+                <button class="next-page-button" aria-label="Next Page">
+                  Next →
+                </button>
+              </div>
+            </div>
+
+            <div class="chapter" id="chapter1">
+              <h2 class="chapter-title">Chapter 1: ETL Data Pipeline</h2>
+              <div class="chapter-content">
+                <div class="project-card">
+                  <h3 class="project-title">
+                    Enterprise-Scale ETL/ELT Pipeline Modernization
+                  </h3>
+                  <p class="project-description">
+                    Led the design and implementation of a modernized, scalable
+                    ETL/ELT pipeline processing over 1TB of diverse data daily.
+                    The system replaced a legacy batch process, significantly
+                    improving performance, reliability, and maintainability for
+                    critical business reporting.
+                  </p>
+                  <div class="project-tags">
+                    <span class="project-tag">Python</span>
+                    <span class="project-tag">Apache Airflow</span>
+                    <span class="project-tag">AWS (S3, Glue, Redshift)</span>
+                    <span class="project-tag">SQL</span>
+                    <span class="project-tag">Spark</span>
+                    <span class="project-tag">Data Quality</span>
+                    <!-- !!! Add/Remove relevant tags !!! -->
+                  </div>
+                  <div class="project-links">
+                    <!-- !!! IMPORTANT: Replace # with actual URLs !!! -->
+                    <a
+                      href="#"
+                      class="project-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >GitHub Repo</a
+                    >
+                    <a
+                      href="#"
+                      class="project-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Live Demo (if applicable)</a
+                    >
+                  </div>
+                </div>
+
+                <p>
+                  This project addressed the limitations of an aging ETL system
+                  struggling with increasing data volumes and complexity. The
+                  primary goal was to build a cloud-native pipeline leveraging
+                  modern orchestration and processing frameworks.
+                </p>
+                <p><strong>Key Challenges & Solutions:</strong></p>
+                <ul>
+                  <li>
+                    <strong>Scalability:</strong> Migrated processing logic to
+                    Apache Spark running on AWS Glue, enabling elastic scaling
+                    based on workload demands. Utilized S3 as a staging layer.
+                  </li>
+                  <li>
+                    <strong>Reliability:</strong> Implemented robust error
+                    handling, automated retries, and comprehensive monitoring
+                    using Apache Airflow's DAGs and alerting mechanisms.
+                  </li>
+                  <!-- !!! Add more challenges/solutions !!! -->
+                </ul>
+
+                <p><strong>Outcomes:</strong></p>
+                <ul>
+                  <li>Reduced end-to-end processing time by over 60%.</li>
+                  <li>
+                    Decreased pipeline failures by 90% through improved error
+                    handling and idempotency.
+                  </li>
+                  <li>
+                    Enabled faster onboarding of new data sources (days instead
+                    of weeks).
+                  </li>
+                  <li>
+                    Provided higher confidence in reported metrics due to
+                    automated quality checks.
+                  </li>
+                  <!-- !!! Add more outcomes / quantify results !!! -->
+                </ul>
+              </div>
+              <div class="page-footer">
+                <!-- Previous Button Added -->
+                <button class="prev-page-button" aria-label="Previous Page">
+                  ← Previous
+                </button>
+                <span class="page-number">Page 1</span>
+                <button class="next-page-button" aria-label="Next Page">
+                  Next →
+                </button>
+              </div>
+            </div>
+
+            <div class="chapter" id="about">
+              <h2 class="chapter-title">About the Author</h2>
+              <div class="chapter-content">
+                <div class="author-bio-container">
+                  <!-- !!! IMPORTANT: Replace src with your actual image URL !!! -->
+                  <img src="eddie-small.gif" alt="Eddie" class="author-image" />
+                  <div class="author-text">
+                    <h3 class="author-name">Eddie</h3>
+                    <!-- !!! IMPORTANT: Update years of experience !!! -->
+                    <p>
+                      A results-oriented Data Engineer with [Number] years of
+                      experience building and optimizing data-intensive
+                      applications and infrastructure.
+                    </p>
+                    <!-- !!! Add a sentence or two about your passion/focus !!! -->
+                  </div>
+                </div>
+
+                <p>
+                  My expertise spans the full data engineering lifecycle, from
+                  designing robust ingestion pipelines and scalable data
+                  lakes/warehouses, to implementing efficient data processing
+                  workflows and enabling data consumers with clean, reliable
+                  data.
+                </p>
+                <p>
+                  I thrive in collaborative environments, working closely with
+                  data scientists, analysts, and stakeholders to deliver
+                  effective, scalable, and maintainable data solutions that
+                  drive business value.
+                </p>
+
+                <p><strong>Key Areas of Expertise:</strong></p>
+                <ul>
+                  <li>
+                    Data Pipeline Development (ETL/ELT) & Orchestration
+                    (Airflow, Dagster, Prefect, etc.)
+                  </li>
+                  <li>
+                    Big Data Technologies (Spark, Kafka, Flink, Hadoop
+                    Ecosystem)
+                  </li>
+                  <li>
+                    Cloud Data Platforms (AWS, Azure, GCP specific services like
+                    S3, Glue, EMR, ADLS, Synapse, GCS, Dataflow, Dataproc etc.)
+                  </li>
+                  <li>
+                    Data Warehousing & Data Modeling (Snowflake, Redshift,
+                    BigQuery, Star/Snowflake Schema, Kimball/Inmon)
+                  </li>
+                  <li>
+                    Data Lake Architecture & Management (Delta Lake, Iceberg,
+                    Hudi)
+                  </li>
+                  <li>
+                    Programming Languages (Python, SQL, Scala/Java - Optional)
+                  </li>
+                  <li>
+                    Infrastructure as Code (Terraform, CloudFormation -
+                    Optional)
+                  </li>
+                  <li>Data Quality & Governance Frameworks</li>
+                  <li>MLOps Principles & Pipeline Automation (Optional)</li>
+                  <!-- !!! Tailor this list to your specific skills !!! -->
+                </ul>
+
+                <p><strong>Education & Certifications:</strong></p>
+                <!-- !!! IMPORTANT: Add your actual education/certs !!! -->
+                <ul>
+                  <li>[Your Degree(s) - e.g., B.S. in Computer Science]</li>
+                  <li>
+                    [Relevant Certifications, e.g., AWS Certified Data Analytics
+                    – Specialty, Google Professional Data Engineer]
+                  </li>
+                  <li>[Relevant Online Courses or Specializations]</li>
+                </ul>
+
+                <p><strong>Contact & Links:</strong></p>
+                <ul class="contact-links">
+                  <!-- !!! IMPORTANT: Replace placeholders with actual links !!! -->
+                  <li>
+                    <strong>Email:</strong>
+                    <a href="mailto:your.email@example.com" class="project-link"
+                      >your.email@example.com</a
+                    >
+                  </li>
+                  <li>
+                    <strong>LinkedIn:</strong>
+                    <a
+                      href="https://linkedin.com/in/yourprofile"
+                      class="project-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >linkedin.com/in/yourprofile</a
+                    >
+                  </li>
+                  <li>
+                    <strong>GitHub:</strong>
+                    <a
+                      href="https://github.com/yourusername"
+                      class="project-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >github.com/yourusername</a
+                    >
+                  </li>
+                  <li>
+                    <!-- Optional: Portfolio Website -->
+                    <strong>Portfolio:</strong>
+                    <a
+                      href="#"
+                      class="project-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >yourportfolio.com</a
+                    >
+                  </li>
+                </ul>
+
+                <p>
+                  Feel free to connect or reach out if you'd like to discuss
+                  data challenges, opportunities, or potential collaborations!
+                </p>
+              </div>
+              <!-- For the about page (last chapter) -->
+              <div class="page-footer">
+                <!-- Previous Button Added -->
+                <button class="prev-page-button" aria-label="Previous Page">
+                  ← Previous
+                </button>
+                <!-- !!! Update page number if needed -->
+                <span class="page-number">Page 2</span>
+                <!-- Next button is hidden via CSS for last chapter -->
+                <button class="next-page-button" aria-label="Next Page">
+                  Next →
+                </button>
+              </div>
+            </div>
+            <!-- !!! Add more chapters here following the same structure as chapter1 !!! -->
+            <!-- Example:
+            <div class="chapter" id="chapter2">
+              <h2 class="chapter-title">Chapter 2: Real-time Streaming</h2>
+              <div class="chapter-content">
+                 ... Project Card ...
+                 ... Details ...
+              </div>
+              <div class="page-footer">
+                 <button class="prev-page-button" aria-label="Previous Page">
+                    ← Previous
+                 </button>
+                 <span class="page-number">Page X</span>
+                 <button class="next-page-button" aria-label="Next Page">
+                    Next →
+                 </button>
+                 <div class="page-curl"></div>
+              </div>
+            </div>
+            -->
+          </div>
+          <!-- End book-main -->
+        </div>
+        <!-- End book-content -->
+      </div>
+      <!-- End book -->
+    </div>
+    <!-- End book-container -->
+
+    <!-- Link to the external JavaScript file -->
+    <script src="script.js"></script>
+  </body>
+</html>

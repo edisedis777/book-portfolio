@@ -1,0 +1,711 @@
+/* styles.css */
+
+/* === Base Styles & Resets === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  perspective: 2000px;
+  overflow-x: hidden; /* Prevents horizontal scrollbar during animation */
+  padding: 20px;
+}
+
+/* === Book Container & Structure === */
+.book-container {
+  width: 90%;
+  max-width: 900px; /* Controls overall book width */
+  height: 90vh;
+  max-height: 650px;
+  position: relative;
+}
+
+.book {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+  /* Transition for the main book movement (translateX) */
+  transition: transform 1.25s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  will-change: transform; /* Optimize animation */
+}
+
+/* --- Book Open State --- */
+.book.open {
+  transform: translateX(25%);
+}
+
+/* === Book Cover & Spine === */
+.book-cover,
+.book-content {
+  position: absolute;
+  width: 100%; /* Cover and content take full width of .book */
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; /* Ensure hardware acceleration */
+  transform-style: preserve-3d;
+  border-radius: 6px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
+  /* Ensure transform origin is set for independent rotation */
+  transform-origin: left center;
+}
+
+.book-cover {
+  background: linear-gradient(45deg, #2c3e50, #34495e);
+  color: #ecf0f1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 10;
+  /* Apply rotation transition specific to the cover */
+  /* FIX: Use ease-in-out for cover rotation to prevent animation conflicts with book translation on close */
+  transition: transform 1.25s ease-in-out;
+  will-change: transform; /* Optimize animation */
+  /* Base transform state (closed) */
+  transform: rotateY(0deg);
+}
+
+/* Rotate the cover significantly when the book is open */
+.book.open .book-cover {
+  transform: rotateY(
+    -160deg
+  ); /* Rotation slightly less than 180 to see spine */
+}
+
+/* Gloss effect */
+.book-cover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0) 50%
+  );
+  pointer-events: none;
+  border-radius: 6px 0 0 6px;
+}
+
+.book-spine {
+  position: absolute;
+  width: 50px; /* Spine width */
+  height: 100%;
+  /* Rotate around the left edge and push back by half its width */
+  transform: rotateY(90deg) translateZ(-25px);
+  background: linear-gradient(to right, #1a2530, #2c3e50);
+  border-radius: 0 6px 6px 0; /* Should match content radius */
+  left: 0; /* Align with the container's left */
+  box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.2);
+  z-index: 5; /* Between cover and content */
+  transform-origin: left center; /* Ensure spine rotates correctly with book */
+}
+
+/* === Cover Content === */
+.profile-image {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid #ecf0f1;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.book-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.book-subtitle {
+  font-size: 18px;
+  margin-bottom: 35px;
+  font-style: italic;
+  color: #bdc3c7;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.book-author {
+  font-size: 20px;
+  margin-top: 25px;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.open-prompt {
+  margin-top: 20px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* === Book Inner Content === */
+.book-content {
+  background-color: #ffffff;
+  border-radius: 0 6px 6px 0; /* Match spine radius side */
+  overflow: hidden; /* Important for containing sidebar/main */
+  display: flex;
+  z-index: 1; /* Below cover and spine */
+  transform: rotateY(0deg); /* Start flat */
+  transform-origin: left center;
+  /* No separate transition needed here, it moves with the .book parent */
+}
+
+/* === Sidebar & Main Area === */
+.book-sidebar {
+  width: 250px;
+  background-color: #f8f8f8;
+  border-right: 1px solid #e0e0e0;
+  padding: 25px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d; /* Maintain 3D context if needed */
+  position: relative; /* Needed for potential absolute positioned children */
+  z-index: 1; /* Ensure above main if any overlap issues arise */
+}
+
+.book-main {
+  flex: 1;
+  padding: 30px 40px;
+  overflow-y: auto;
+  position: relative;
+  transform-style: preserve-3d; /* Maintain 3D context */
+}
+
+/* Subtle Scrollbar Styling (WebKit) */
+.book-sidebar::-webkit-scrollbar,
+.book-main::-webkit-scrollbar {
+  width: 8px;
+}
+.book-sidebar::-webkit-scrollbar-track,
+.book-main::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+.book-sidebar::-webkit-scrollbar-thumb,
+.book-main::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+.book-sidebar::-webkit-scrollbar-thumb:hover,
+.book-main::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* === Table of Contents === */
+.table-of-contents {
+  margin-bottom: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.toc-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #2c3e50;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #3498db;
+}
+
+.toc-list {
+  list-style: none; /* Remove default list bullets */
+  padding-top: 10px;
+  flex-grow: 1; /* Allow the list to grow */
+}
+
+.toc-item {
+  padding: 12px 8px;
+  margin-bottom: 8px;
+  font-size: 17px;
+  border-radius: 6px;
+  cursor: pointer; /* Indicate clickable */
+  transition: transform 0.2s ease, background-color 0.3s, color 0.3s;
+  position: relative; /* For pseudo-elements like active border */
+}
+
+.toc-item:hover {
+  color: #2980b9;
+  background-color: #ecf0f1;
+  transform: translateX(3px); /* Subtle movement on hover */
+}
+
+.toc-item.active {
+  color: #3498db;
+  font-weight: bold;
+  background-color: #e1eaf1;
+  border-left: 4px solid #3498db;
+  padding-left: 12px; /* Compensate for the border width */
+  transform: translateX(0); /* Reset hover transform */
+}
+/* Adjust padding for non-active to match active text alignment */
+.toc-item:not(.active) {
+  padding-left: 16px; /* 12px base + 4px border width */
+}
+
+/* === Chapters & Content === */
+.chapter {
+  display: none; /* Hide chapters by default */
+}
+
+.chapter.active {
+  display: block;
+  animation: fadeIn 0.6s ease-in-out forwards; /* Use forwards to keep state */
+}
+
+.chapter-title {
+  font-size: 28px;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  text-align: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #bdc3c7;
+}
+
+.chapter-content {
+  line-height: 1.7;
+  color: #333;
+  font-size: 16px;
+}
+/* Add spacing for common elements */
+.chapter-content p,
+.chapter-content ul,
+.chapter-content .project-card,
+.chapter-content .author-bio-container {
+  margin-bottom: 1.5em; /* Consistent bottom margin */
+}
+.chapter-content ul {
+  margin-left: 25px;
+  padding-left: 10px;
+}
+.chapter-content li {
+  margin-bottom: 0.6em;
+}
+
+/* === Project Cards === */
+.project-card {
+  background-color: #fdfdfd;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 25px;
+  /* Removed margin-bottom here, handled by .chapter-content spacing */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.project-title {
+  font-size: 22px;
+  color: #3498db;
+  margin-bottom: 12px;
+}
+
+.project-description {
+  margin-bottom: 18px;
+  color: #555;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.project-tag {
+  background-color: #5dade2;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 500;
+}
+/* Different colors for different tag types (example) */
+.project-tag:nth-child(3n + 1) {
+  background-color: #48c9b0;
+} /* Teal */
+.project-tag:nth-child(3n + 2) {
+  background-color: #f5b041;
+} /* Orange */
+
+.project-links {
+  display: flex;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.project-link {
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
+  transition: color 0.3s, text-decoration 0.3s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.project-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #2980b9;
+  transition: width 0.3s ease-out;
+}
+
+.project-link:hover {
+  color: #2980b9;
+}
+.project-link:hover::after {
+  width: 100%;
+}
+
+/* === Page Number & Curl / Nav Buttons === */
+.page-footer {
+  display: flex;
+  justify-content: space-between; /* Keeps buttons pushed to edges */
+  align-items: center;
+  margin-top: 40px;
+  position: relative; /* Needed for page-curl positioning */
+  min-height: 40px; /* Ensure space even without curl */
+}
+
+.page-number {
+  font-style: italic;
+  color: #999;
+  font-size: 14px;
+  flex-grow: 1; /* Allows the page number to take up the central space */
+  text-align: center; /* Centers the text within its available space */
+  margin: 0 10px; /* Add some space between number and buttons */
+  padding: 5px 0; /* Add vertical padding to align better with buttons */
+}
+
+/* Common styles for Nav Buttons */
+.prev-page-button,
+.next-page-button {
+  background: none;
+  border: none;
+  color: #3498db;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease; /* Added opacity transition */
+  font-weight: 500;
+  flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.prev-page-button:hover,
+.next-page-button:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Hide Previous button on the FIRST chapter */
+.chapter:first-of-type .prev-page-button {
+  opacity: 0;
+  pointer-events: none; /* Make it non-interactable */
+  cursor: default;
+}
+
+/* Hide Next button on the LAST chapter */
+.chapter:last-of-type .next-page-button {
+  opacity: 0;
+  pointer-events: none; /* Make it non-interactable */
+  cursor: default;
+}
+
+.page-curl {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(315deg, #ccc 45%, #e8e8e8 50%, #fff 55%);
+  border-radius: 0 0 0 8px;
+  box-shadow: -3px -3px 8px rgba(0, 0, 0, 0.15);
+  pointer-events: none; /* Let clicks pass through */
+  z-index: -1; /* Put curl behind buttons if overlap occurs */
+}
+
+/* === Close Button === */
+#close-button {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 100; /* High z-index WITHIN book-content */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: scale(0.5) rotate(-90deg);
+  transition: opacity 0.4s 0.5s ease-in-out, transform 0.4s 0.5s ease-in-out,
+    background-color 0.2s ease, visibility 0s 0.9s; /* Delay visibility change */
+  visibility: hidden; /* Use visibility to prevent interaction when hidden */
+}
+
+#close-button.visible {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  visibility: visible;
+  transition-delay: 0.8s, 0.8s, 0s, 0s; /* Apply delay to opacity/transform, not others */
+}
+
+#close-button:hover {
+  background: #c0392b;
+  transform: scale(1.1) rotate(0deg); /* Keep rotation at 0 */
+}
+#close-button:active {
+  transform: scale(0.95) rotate(0deg); /* Keep rotation at 0 */
+}
+
+/* === About Author Section Specifics === */
+.author-bio-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+  /* margin-bottom handled by .chapter-content */
+}
+
+.author-image {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 4px solid #3498db;
+  margin-top: 5px;
+  flex-shrink: 0; /* Prevent image shrinking */
+}
+
+.author-text {
+  flex-grow: 1;
+}
+
+.author-name {
+  margin-bottom: 0.5em;
+  color: #2c3e50;
+  font-size: 1.5em;
+}
+
+.contact-links {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1em;
+}
+.contact-links li {
+  margin-bottom: 0.6em;
+}
+.contact-links strong {
+  min-width: 60px; /* Adjust as needed */
+  display: inline-block;
+  margin-right: 5px; /* Add space after label */
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Responsive Design === */
+@media (max-width: 768px) {
+  body {
+    perspective: none; /* Disable 3D on mobile */
+    padding: 10px;
+    align-items: flex-start; /* Align container to top */
+    min-height: unset; /* Allow body height to adjust */
+  }
+  .book-container {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    margin-top: 15px;
+  }
+  .book {
+    position: static; /* Remove positioning for flat layout */
+    transform-style: flat;
+    transition: none;
+    transform: none !important; /* Override open/close transforms */
+    height: auto;
+  }
+  .book.open {
+    transform: none !important; /* Ensure no transform */
+  }
+
+  .book-cover,
+  .book-content {
+    position: relative; /* Static positioning in flow */
+    transform: none !important;
+    width: 100%;
+    height: auto; /* Adjust height to content */
+    backface-visibility: visible;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    margin-bottom: 15px; /* Space between cover and content */
+    transition: none;
+    transform-origin: top left; /* Less relevant now */
+    overflow: visible; /* Allow content to flow */
+  }
+  .book-cover {
+    cursor: default; /* No click action */
+    padding: 20px; /* Adjust padding */
+  }
+  .open-prompt {
+    display: none; /* Hide prompt */
+  }
+
+  .book-spine {
+    display: none; /* Hide spine */
+  }
+
+  .book-content {
+    display: flex;
+    flex-direction: column; /* Stack sidebar and main */
+    border-radius: 6px; /* Apply to the whole content block */
+    margin-bottom: 0;
+    z-index: auto;
+  }
+
+  .book-sidebar {
+    width: 100%; /* Full width */
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0; /* Separator line */
+    max-height: 300px; /* Limit height, allow scroll */
+    overflow-y: auto;
+    padding: 15px; /* Adjust padding */
+    box-sizing: border-box; /* Include padding in width */
+  }
+
+  .book-main {
+    padding: 20px 15px; /* Adjust padding */
+    overflow-y: visible; /* Let content define height */
+    height: auto;
+  }
+
+  .toc-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  .toc-item {
+    font-size: 16px;
+    padding: 10px 8px;
+  }
+  /* Adjust padding for mobile */
+  .toc-item.active {
+    padding-left: 12px;
+  }
+  .toc-item:not(.active) {
+    padding-left: 16px;
+  }
+
+  #close-button {
+    display: none; /* Hide close button */
+  }
+  .page-curl {
+    display: none; /* Hide curl */
+  }
+  .page-footer {
+    margin-top: 30px; /* Slightly reduce margin */
+  }
+  .page-number {
+    margin: 0 5px; /* Reduce horizontal margin */
+    font-size: 13px; /* Slightly smaller on mobile */
+  }
+  .prev-page-button,
+  .next-page-button {
+    padding: 5px 8px; /* Slightly reduce padding */
+    font-size: 13px; /* Slightly smaller on mobile */
+  }
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+  .book-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .book-subtitle {
+    font-size: 16px;
+    margin-bottom: 25px;
+  }
+  .book-author {
+    font-size: 18px;
+  }
+
+  .chapter-title {
+    font-size: 22px;
+  }
+  .project-card {
+    padding: 20px;
+  }
+  .project-title {
+    font-size: 18px;
+  }
+
+  .author-bio-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+  }
+  .author-image {
+    margin-top: 0;
+    width: 100px; /* Smaller image */
+    height: 100px;
+    margin-bottom: 10px;
+  }
+  .contact-links li {
+    text-align: center; /* Center links */
+  }
+  .contact-links strong {
+    display: block; /* Stack label above link */
+    margin-bottom: 3px;
+    min-width: auto;
+    margin-right: 0;
+  }
+}
