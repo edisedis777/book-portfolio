@@ -7,7 +7,7 @@ your-portfolio/
 ├── eddie-small.gif        # Profile image
 └── chapters/              # Chapter content directory
     ├── introduction.html    #   HTML Introduction
-    ├── project1-etl.html    #   HTML Project 1
-    ├── project2-stream.html #   HTML Project 2
+    ├── project1.html        #   HTML Project 1
+    ├── project2.html        #   HTML Project 2
     └── about.html           #   HTML About page
 ```
