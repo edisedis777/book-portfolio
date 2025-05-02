@@ -11,3 +11,5 @@ your-portfolio/
     ├── project2.html        #   HTML Project 2
     └── about.html           #   HTML About page
 ```
+
+Distributed under the GNU Affero General Public License v3.0 License. See `LICENSE` for more information.
